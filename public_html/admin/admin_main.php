@@ -32,7 +32,77 @@ include("../includes/bootstrap.php");
     include("../includes/nav.php");
     ?>
   </header>
-  <main style="padding-top:200px;">
+  <main style="padding-top:70px;">
+<div class='container'>
+
+  <div class="jumbotron">
+  <h1 class="display-4">ADD Department</h1>
+  <form>
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Department Name">
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Department Id">
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="No of Employees">
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+      <!--<input type="text" class="form-control" placeholder="Department Name">-->
+    </div>
+    <div class="col">
+    <button type="submit" class="btn btn-primary">ADD DEPARTMENT</button>
+    </div>
+    <div class="col">
+     <!-- <input type="text" class="form-control" placeholder="No of Employees">-->
+    </div>
+  </div>
+</form>
+</div>
+<br>
+<div class="jumbotron">
+  <h1 class="display-4">ADD Employee</h1>
+  <form>
+  <div class="row">
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Employee ID">
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Eployee Title">
+    </div>
+    </div>
+    <br>
+    <div class ='row'>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Employee First Name">
+    </div>
+    <div class="col">
+      <input type="text" class="form-control" placeholder="Employee Last Name">
+    </div>
+    </div>
+  <br>
+  <div class="row">
+    <div class="col">
+      <input type="date" class="form-control" placeholder="Date of Birth">
+    </div>
+    <div class="col">
+    <input type="date" class="form-control" placeholder="Date of Joing">
+    </div>
+  </div>
+  <br>
+  <div class='row'>
+  <div class='col'>
+  <button type="submit" class="btn btn-primary">ADD employee</button>
+  </div>
+  </div>
+</form>
+</div>
+</div>
+
     <!-- body -->
 <?php
     include("../includes/javascript.php");
