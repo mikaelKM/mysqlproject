@@ -1,132 +1,153 @@
 <?php
 session_start();
 function userlogin($username, $password){
-
   define('DB_HOST', 'localhost');
   define('DB_USER', $username);
   define('DB_PASS', $password);
-  //define('DB_NAME', 'interview');
-  
-  $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASS); //or die('Connection Error => '.mysqli_connect_error());
-
+  define('DB_NAME', 'EMD');
+  $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME); //or die('Connection Error => '.mysqli_connect_error());
   if ($dbc == true){
-    echo '<script> alert(\'successful login.\')</script>';
-
-$_SESSION['user']= $username;
-   ?>
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-<?php 
-include("../includes/bootstrap.php");
-  ?>
-    <title>MYSQL Project</title>
-    </head>
-    <header>
-    <?php 
-    include("../includes/nav.php");
-    ?>
-  </header>
-  <main style="padding-top:70px;">
-<div class='container'>
-
-  <div class="jumbotron">
-  <h1 class="display-4">ADD Department</h1>
-  <form>
-  <div class="row">
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Department Name">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Department Id">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="No of Employees">
-    </div>
-  </div>
-  <br>
-  <div class="row">
-    <div class="col">
-      <!--<input type="text" class="form-control" placeholder="Department Name">-->
-    </div>
-    <div class="col">
-    <button type="submit" class="btn btn-primary">ADD DEPARTMENT</button>
-    </div>
-    <div class="col">
-     <!-- <input type="text" class="form-control" placeholder="No of Employees">-->
-    </div>
-  </div>
-</form>
-</div>
-<br>
-<div class="jumbotron">
-  <h1 class="display-4">ADD Employee</h1>
-  <form>
-  <div class="row">
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Employee ID">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Eployee Title">
-    </div>
-    </div>
-    <br>
-    <div class ='row'>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Employee First Name">
-    </div>
-    <div class="col">
-      <input type="text" class="form-control" placeholder="Employee Last Name">
-    </div>
-    </div>
-  <br>
-  <div class="row">
-    <div class="col">
-      <input type="date" class="form-control" placeholder="Date of Birth">
-    </div>
-    <div class="col">
-    <input type="date" class="form-control" placeholder="Date of Joing">
-    </div>
-  </div>
-  <br>
-  <div class='row'>
-  <div class='col'>
-  <button type="submit" class="btn btn-primary">ADD employee</button>
-  </div>
-  </div>
-</form>
-</div>
-</div>
-
-    <!-- body -->
-<?php
-    include("../includes/javascript.php");
-
-?>
-    </main>
-  <div class="fixed-bottom">
-<?php include('../includes/footer.php');?>
-
-</div>
-</html>
   
-   <?php
-  }else{
-    echo '<script> alert(\'login not successful\')</script>';
-  }
-}
-?>
+    header('location: ../admin/site.php');
+  echo '<script> alert(\'successful login.\')</script>';
+  $_SESSION['user']= $username;
+  $_SESSION['pass']= $password;
 
+}else{
+  echo '<script> alert(\'login not successful\')</script>';
+  echo '<script> window.open(\'/\',\'_self\')</script>';
+}
+}
+   ?>
 <?php 
+//To log in the database application as admin
 if (isset($_POST['login'])){
   $username = 'root';
   $password = $_POST['password'];
   
   userlogin($username, $password);
 }
+?>
+<?php 
+include("../includes/bootstrap.php");
+  ?>
+<?php
+//adding a department in the database
+
+define('DB_HOST', 'localhost');
+define('DB_USER', $_SESSION['user']);
+define('DB_PASS', $_SESSION['pass']);
+define('DB_NAME', 'EMD');
+$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+  if(isset($_POST['add_dpt'])){
+    $dpt_name = $_POST['dpt_name'];
+    $dpt_id = $_POST['dpt_id'];
+    $no_empl = $_POST['no_empl'];
+
+    $insert = "select insrt_into_dpt($dpt_id, '$dpt_name', $no_empl)";
+
+    $ins= $dbc->query($insert);
+
+    if ($ins){
+      ?>
+       <div class="alert alert-success" role="alert">
+  Successfully Added the department!
+  <script> window.open('/',_self)</script>
+</div>
+        <?php
+    }else{
+      
+      
+      ?>
+      <div class="alert alert-danger" role="alert">
+  Unexpected Error Occured . <?php $dbc->error; ?>
+    </div>
+
+<?php 
+
+    }
+  }
+  ?>
+
+
+<?php
+//adding Employee to the database
+
+define('DB_HOST', 'localhost');
+define('DB_USER', $_SESSION['user']);
+define('DB_PASS', $_SESSION['pass']);
+define('DB_NAME', 'EMD');
+$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+  if(isset($_POST['add_empl'])){
+    $empl_id = $_POST['empl_id'];
+    $empl_title = $_POST['empl_ttl'];
+    $empl_fname = $_POST['empl_fname'];
+    $empl_lname = $_POST['empl_lname'];
+    $empl_dob = $_POST['empl_dob'];
+    $empl_do = $_POST['empl_doj'];
+    $phone  = $_POST['phone'];
+    $email = $_POST['email'];
+    $adress = $_POST['adress'];
+
+    $insert = "select insrt_into_emplbio($empl_id, '$empl_title', '$empl_fname', '$empl_lname', '$empl_dob', '$empl_do', $phone, '$email', '$adress')";
+
+    $ins= $dbc->query($insert);
+
+    if ($ins){
+      ?>
+       <div class="alert alert-success" role="alert">
+  Successfully Added the employee!
+  <script> window.open('/',_self)</script>
+</div>
+        <?php
+    }else{
+      ?>
+      <div class="alert alert-danger" role="alert">
+  Unexpected Error Occured . <?php $dbc->error; ?>
+    </div>
+
+<?php 
+
+    }
+  }
+  ?>
+
+<?php 
+//adding work details
+
+define('DB_HOST', 'localhost');
+define('DB_USER', $_SESSION['user']);
+define('DB_PASS', $_SESSION['pass']);
+define('DB_NAME', 'EMD');
+$dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if(isset($_POST['add_work_details'])){
+$empl_id = $_POST['empl_id'];
+$dpt_id = $_POST['dpt_id'];
+$empl_title = $_POST['empl_title'];
+$empl_grade = $_POST['empl_grade'];
+$empl_from = $_POST['empl_from'];
+$empl_to = $_POST['empl_to'];
+
+$insert = "CALL insrt_empl_wrk_grade($empl_id, $dpt_id, '$empl_title', '$empl_from', '$empl_to', $empl_grade)";
+$ins = $dbc->query($insert);
+
+if ($ins){
+  ?>
+   <div class="alert alert-success" role="alert">
+Successfully Added the employee Work details!
+<script> window.open('/',_self)</script>
+</div>
+    <?php
+}else{
+  ?>
+  <div class="alert alert-danger" role="alert">
+Unexpected Error Occured . <?php echo $dbc->error; ?>
+</div>
+
+<?php 
+  }
+} 
 ?>
