@@ -6,3 +6,5 @@
 [Tue Oct 29 18:35:45.895505 2019] [php7:error] [pid 1447] [client 127.0.0.1:44338] script '/var/www/html/mysqlproject/public_html/users/u.php' not found or unable to stat, referer: http://mysqlproject/
 [Wed Oct 30 22:12:50.591299 2019] [php7:error] [pid 11790] [client 127.0.0.1:57396] script '/var/www/html/mysqlproject/public_html/admin_main.php' not found or unable to stat, referer: http://mysqlproject/
 [Wed Oct 30 22:17:13.049929 2019] [php7:error] [pid 12003] [client 127.0.0.1:57400] script '/var/www/html/mysqlproject/public_html/admin_main.php' not found or unable to stat, referer: http://mysqlproject/
+[Mon Nov 11 16:40:50.855308 2019] [php7:error] [pid 2696] [client 127.0.0.1:44898] script '/var/www/html/mysqlproject/public_html/users/update.php' not found or unable to stat, referer: http://mysqlproject/users/site.php
+[Mon Nov 11 16:41:01.986963 2019] [php7:error] [pid 2700] [client 127.0.0.1:44902] script '/var/www/html/mysqlproject/public_html/users/update.php' not found or unable to stat, referer: http://mysqlproject/users/site.php
