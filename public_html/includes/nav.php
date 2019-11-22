@@ -1,5 +1,8 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/">EMPLOYEE DBMS</a>
+  <a class="navbar-brand" <?php if ($_SESSION['user']=='root'){ ?>  href="../admin/site.php" <?php 
+  }elseif($_SESSION['user']){
+    ?> href="../users/site.php"
+  <?php } ?>>EMPLOYEE DBMS</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>

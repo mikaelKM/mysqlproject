@@ -42,7 +42,8 @@ include("../includes/bootstrap.php");
   </header>
   <main style="padding-top:70px;">
   <div class="container">
-
+   <!-- body -->
+  <div class="jumbotron">
   <?php
 //deleting an employee from the employee bio table
 include ('../conn.php');
@@ -67,8 +68,9 @@ if (isset($_GET['del'])){
 }
 ?>
 
-    <!-- body -->
+ 
     <!-- employee bio -->
+
     <?php
 $username = $_SESSION['user'];
 $password = $_SESSION['pass'];
@@ -137,13 +139,34 @@ echo "ERROR";
     </tr>
   </tfoot>
 </table>
+</div>
 <br>
 <!---The grade details -->
+<div class="jumbotron">
+<?php 
+      include("../conn.php");
+      if ($_GET['del_g']){
+        $id = $_GET['del_g'];
+        $delete = "DELETE FROM grade_details WHERE grade_id = $id";
+        $del = $mysqli->query($delete);
+        if($del){
+          ?>
+          <div class="alert alert-success container" role="alert">
+  Deletion been completed successfuly.
+  </div>
+          <?php
+        }else{
+          ?>
+          <div class="alert alert-danger container" role="alert">
+  An error has been encountered. <?php echo $mysqli->error; ?>
+  </div>
+          <?php
+        }
 
+      }
+      ?>
 <?php
-$username = $_SESSION['user'];
-$password = $_SESSION['pass'];
-$database = "EMD";
+include('../conn.php');
 $mysqli = new mysqli("localhost", $username, $password, $database);
  
 $query = "SELECT * FROM grade_details";
@@ -191,8 +214,8 @@ if ($result = $mysqli->query($query)) {
       <td><?php echo $MA; ?></td>
       <td><?php echo $bonus; ?></td>
       <td><?php echo $tax; ?></td>
-      <td> <a href=''?del=<?php $id ?> > <button type="button" class="btn btn-danger">DETELE</button> </a></td>
-      <td> <button type="button" class="btn btn-primary">UPDATE</button></td>
+      <td> <a href='?del_g=<?php echo $id; ?>'> <button type="button" onclick = "return confirm('You are about to delete a grade from the database?')" class="btn btn-danger">DETELE</button> </a></td>
+      <td> <a href='../users/update_grade.php?update=<?php echo$id; ?>'> <button type="button" class="btn btn-primary">UPDATE</button></a></td>
       
     </tr>
 
@@ -205,15 +228,12 @@ $result->free();
 ?>
 </tbody>
 </table>
-
+</div>
 <!-- employee work details -->
-
+<div class="jumbotron">
 <?php
-$username = $_SESSION['user'];
-$password = $_SESSION['pass'];
-$database = "EMD";
-$mysqli = new mysqli("localhost", $username, $password, $database);
- 
+
+include("../conn.php"); 
 $query = "SELECT * FROM empl_work_details";
 ?>
 
@@ -227,8 +247,7 @@ $query = "SELECT * FROM empl_work_details";
       <th scope="col"> TO DATE </th>
       <th scope="col">GRADE name</th>
       <th scope="col">DEPARTMENT NAME</th>
-      <th scope="col"> DELETE </th>
-      <th scope ="col"> UPDATE </th>
+      
 
     </tr>
   </thead>
@@ -254,8 +273,6 @@ if ($result = $mysqli->query($query)) {
       <td><?php echo $t_date; ?></td>
       <td><?php echo $grade; ?></td>
       <td><?php echo $dpr; ?></td>
-      <td> <button type="button" class="btn btn-danger">DETELE</button></td>
-      <td> <button type="button" class="btn btn-primary">UPDATE</button></td>
       
     </tr>
 
@@ -275,8 +292,7 @@ $result->free();
       <th scope="col"> TO DATE </th>
       <th scope="col">GRADE NAME</th>
       <th scope="col">DEPARTMENT NAME</th>
-      <th scope="col"> DELETE </th>
-      <th scope ="col"> UPDATE </th>
+    
 
     </tr>
   </tfoot>
@@ -284,9 +300,10 @@ $result->free();
 
 
 
-
+</div>
 
 </div>
+
 <?php
     include("../includes/javascript.php");
 

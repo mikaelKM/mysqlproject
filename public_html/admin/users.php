@@ -100,11 +100,11 @@ if(!empty($_POST['check'])){
 
       grantAll($user, $table);
 
-      echo $selected;
+      //echo $selected;
        
      }else{
 
-      grantsome($selected);
+      grantsome($selected,$table, $user);
       //echo ",".$selected."";
      }
    }
@@ -126,17 +126,16 @@ include("../conn.php");
 $grantall = "GRANT ALL PRIVILEGES ON EMD.$table TO $user@localhost";
 $flush = "FLUSH PRIVILEGES";
 
-$grant= $mysqli->$grantall;
-$commit= $mysqli->$flush;
+$grant= $mysqli->query($grantall);
+$commit= $mysqli->query($flush);
 
-if ($grant && $commit){
+if ($grant){
   ?>
   <div class="alert alert-success" role="alert">
   The User has been granted ALL privileges created successfully.
   </div>
   <?php
 }else{
-
   ?>
   <div class="alert alert-danger" role="alert">
   ERROR ENCOUNTERED. <?php echo $mysqli->error; ?>
@@ -148,14 +147,10 @@ if ($grant && $commit){
 }
 ?>
 <?php 
-function grantsome($selected){
-if ($selected =='ALL'){
+function grantsome($selected, $table, $user){
 
-  echo "ONLY ALL THE PRILEGESHAS BEEN GRANTED";
-}else {
-  echo $selected;
-}
-  
+echo substr( $k, 0, -1);
+ $grantprv = "GRANT $prev PRIVILEGES ON EMD.$table TO $user@localhost"; 
 }
 ?>
 
@@ -266,6 +261,109 @@ $us->free();
 This grants the user previlges on the EMD
   </div>
 </div>
+
+
+
+<!-- other tasks on users -->
+<div class="card border-primary mb-3" style="max-width: auto">
+
+
+  <div class="card-header border-primary text-success">
+    OTHER TASKS ON THE USERS
+  </div>
+  <div class="card-body">
+<?php 
+if (isset($_POST['del_u'])){
+  $user = $_POST['user'];
+  $del_u = "DROP USER '$user'@'localhost'";
+  $del = $mysqli->query($del_u);
+  if ($del){
+?>
+<div class="alert alert-success" role="alert">
+ SUCCESSFULLY DELETED THE USER
+  </div>
+<?php
+  }else{
+    ?>
+<div class="alert alert-danger" role="alert">
+  Error encountered while Deleting the user. <?php echo $mysqli->error; ?>
+  </div>
+    <?php
+  }
+}
+?>
+    <h3 class="card-title"></h3>
+    <form method="POST" action="">
+    <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">USER</th>
+      <th scope="col">TABLE</th>
+      <th scope="col">DENY PRIV</th>
+      <th scope="col">DELETE USER</th>
+    </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <th scope="row"> 
+        <div class="form-group">
+    <select class="form-control" id="user" name="user">
+      <?php 
+include("../conn.php");
+$user = "SELECT user FROM mysql.user";
+$us = $mysqli->query($user);
+while($row=$us->fetch_assoc()){
+//$us = $row['user'];
+  
+  ?>
+   <option value='<?php echo $row['user'];?>' > <?php echo $row['user']; ?></option>
+<?php
+}
+$us->free();
+      ?>
+     
+    </select>
+  </div>
+</th>
+      <td>
+      <div class="form-group">
+    <select class="form-control" id="user" name="table">
+    <option value="" selected>you may or not choose table</option> 
+      <?php 
+include("../conn.php");
+$table = "SHOW TABLES";
+$tb = $mysqli->query($table);
+while($row=$tb->fetch_assoc()){
+  ?>
+
+   <option value='<?php echo $row['Tables_in_EMD'];?>' > <?php echo $row['Tables_in_EMD']; ?></option>
+<?php
+}
+$us->free();
+      ?>
+      </td>
+      
+      <td> <a href='?del=<?php echo $id; ?>' > <button onclick = "return confirm('Are you sure you want to delete the employee? This will remove the emoployee from the database')" type="button" class="btn btn-danger">DENY</button> </a></td>    
+   
+    
+     
+      <td> <button onclick = "return confirm('Are you sure you want to delete the USER? This will remove the USERfrom the database')" type="submit" name="del_u" class="btn btn-danger">DELETE</button></td> 
+</tbody>
+</table>
+</form>
+
+
+  </div>
+  <div class="card-footer text-muted border-primary">
+Drping a database user
+  </div>
+</div>
+
+
+
+
+
+
 
 <?php
     include("../includes/javascript.php");

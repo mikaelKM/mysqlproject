@@ -25,35 +25,7 @@ include("../includes/bootstrap.php");
   <main style="padding-top:70px;">
   <div class="container">
     <!-- body -->
-    <?php
-    include('../conn.php');
-    if (isset($_POST['update'])){
-      $id =  mysqli_real_escape_string($mysqli,$_POST['empl_id']);
-      $title = mysqli_real_escape_string($mysqli, $_POST['title']);
-      $fname = mysqli_real_escape_string($mysqli, $_POST['fname']);
-      $lname = mysqli_real_escape_string($mysqli, $_POST['lane']);
-      $dob = mysqli_real_escape_string($mysqli, $_POST['dob']);
-      $doj = mysqli_real_escape_string($mysqli, $_POST['doj']);
-
-$update = "UPDATE employee_bio SET empl_title='$title',empl_fname='$fname',empl_dob='$dob',empl_doj='$doj' WHERE emp_id='$id'";
-$up = $mysqli->query($update);
-
-if ($up){
-  ?>
-  <div class="alert alert-success" role="alert">
-  Update Successful.
-</div>
-<?php
-}else{
-  ?>
-  <div class="alert alert-danger" role="alert">
-  Update not completed successfully. <?php echo $mysqli->error; ?>
-</div>
-<?php
-}
-
-    }
-    ?>
+ 
     <?php 
     include('../conn.php');
     if (isset($_GET['update_bio'])){
@@ -71,6 +43,36 @@ $select = "SELECT * FROM employee_bio WHERE emp_id = '$id'";
         <div class='container'>
 
 <div class="jumbotron">
+<?php
+    include('../conn.php');
+    if (isset($_POST['update'])){
+      $id =  mysqli_real_escape_string($mysqli,$_POST['empl_id']);
+      $title = mysqli_real_escape_string($mysqli, $_POST['title']);
+      $fname = mysqli_real_escape_string($mysqli, $_POST['fname']);
+      $lname = mysqli_real_escape_string($mysqli, $_POST['lane']);
+      $dob = mysqli_real_escape_string($mysqli, $_POST['dob']);
+      $doj = mysqli_real_escape_string($mysqli, $_POST['doj']);
+
+$update = "UPDATE employee_bio SET empl_title='$title',empl_fname='$fname',empl_dob='$dob',empl_doj='$doj' WHERE emp_id='$id'";
+$up = $mysqli->query($update);
+
+if ($up){
+  ?>
+  <div class="alert alert-success" role="alert">
+  Update Successful.
+  <script> setTimeout(function(){ window.open('../users/site.php','_self')}, 3000);</script>
+</div>
+<?php
+}else{
+  ?>
+  <div class="alert alert-danger" role="alert">
+  Update not completed successfully. <?php echo $mysqli->error; ?>
+</div>
+<?php
+}
+
+    }
+    ?>
 <h3 class="display-6 text-success">Update the employee Bio</h3>
 <form method='POST' action=''>
 <div class="row">
