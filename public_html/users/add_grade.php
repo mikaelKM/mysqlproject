@@ -44,7 +44,7 @@ include ("../conn.php");
             <div class="alert alert-success container" role="alert">
   Grade has been added successfully.
 
-  <script> setTimeout(function(){ window.open('../admin/salaries.php','_self')}, 3000);</script>
+  <script> setTimeout(function(){ window.open('../users/site.php','_self')}, 3000);</script>
   </div>
             <?php
         }else{

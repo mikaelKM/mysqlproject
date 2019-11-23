@@ -167,7 +167,6 @@ echo "ERROR";
       ?>
 <?php
 include('../conn.php');
-$mysqli = new mysqli("localhost", $username, $password, $database);
  
 $query = "SELECT * FROM grade_details";
 ?>
@@ -193,7 +192,6 @@ $query = "SELECT * FROM grade_details";
   <tbody>
   <?php
 if ($result = $mysqli->query($query)) {
- 
     while ($row = $result->fetch_assoc()) {
         $id = $row["grade_id"];
         $name = $row["grade_name"];
@@ -228,6 +226,7 @@ $result->free();
 ?>
 </tbody>
 </table>
+<p> <a href="../users/add_grade.php">TO ADD ANOTHER GRADE CLICK HERE</a> </p>
 </div>
 <!-- employee work details -->
 <div class="jumbotron">

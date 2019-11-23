@@ -1,3 +1,4 @@
+<?php if (!dir('/') && empty($_SESSION['user'])){ ?> <script> window.open('/','_self'); </script> <?php } ?>
 <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" <?php if ($_SESSION['user']=='root'){ ?>  href="../admin/site.php" <?php 
   }elseif($_SESSION['user']){
@@ -37,7 +38,7 @@
         <a class="nav-link" href="/users/manage.php">MANAGEMENT</a>
       </li>
       <li class="nav-item active">
-        <a class="nav-link" href="">TRANSACTIONS</a>
+       <!-- <a class="nav-link" href="">TRANSACTIONS</a>-->
       </li>      
     <?php } ?>
     </ul>

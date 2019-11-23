@@ -95,18 +95,17 @@ $row =$con->fetch_assoc();
    $prev = $_POST['check'];
 
 if(!empty($_POST['check'])){
-   foreach($_POST['check'] as $selected){
-     if ($selected =='ALL'){
+
+  $selected = implode(', ', $_POST['check']);
+if (strpos($selected, 'ALL') !== false){
 
       grantAll($user, $table);
 
-      //echo $selected;
        
      }else{
 
       grantsome($selected,$table, $user);
-      //echo ",".$selected."";
-     }
+     
    }
   }
    else{
@@ -129,10 +128,10 @@ $flush = "FLUSH PRIVILEGES";
 $grant= $mysqli->query($grantall);
 $commit= $mysqli->query($flush);
 
-if ($grant){
+if ($grant && $commit){
   ?>
   <div class="alert alert-success" role="alert">
-  The User has been granted ALL privileges created successfully.
+  The User has been granted ALL privileges successfully.
   </div>
   <?php
 }else{
@@ -148,9 +147,30 @@ if ($grant){
 ?>
 <?php 
 function grantsome($selected, $table, $user){
+  include("../conn.php");
 
-echo substr( $k, 0, -1);
- $grantprv = "GRANT $prev PRIVILEGES ON EMD.$table TO $user@localhost"; 
+ $grantprv = "GRANT $selected ON EMD.$table TO $user@localhost"; 
+ $flush = "FLUSH PRIVILEGES";
+
+$grant= $mysqli->query($grantprv);
+$commit= $mysqli->query($flush);
+
+if ($grant && $commit){
+  ?>
+  <div class="alert alert-success" role="alert">
+  The User has been granted <?php echo $selected; ?> privileges successfully.
+  </div>
+  <?php
+}else{
+  ?>
+  <div class="alert alert-danger" role="alert">
+  ERROR ENCOUNTERED. <?php echo $mysqli->error; ?>
+  </div>
+  <?php
+}
+
+
+
 }
 ?>
 
@@ -215,9 +235,9 @@ $us->free();
     </td>
       <td>
       <div class="form-check">
-    <input type="checkbox" class="form-check-input" name="check[]" value="USE" id="use">
+    <input type="checkbox" class="form-check-input" name="check[]" value="USAGE" id="use">
     <label class="form-check-label" for="use">yes</label>
-  </div>    
+  </div>   
     </td>
       <td>
       <div class="form-check">
@@ -272,7 +292,108 @@ This grants the user previlges on the EMD
     OTHER TASKS ON THE USERS
   </div>
   <div class="card-body">
+  <?php 
+  //REVOKING PRIVILEGES
+ if(isset($_POST['deny'])){
+   $user = $_POST['user'];
+   $table = $_POST['table'];
+//   $prev = $_POST['check'];
+
+if(!empty($_POST['check'])){
+
+  $selected = implode(', ', $_POST['check']);
+if (strpos($selected, 'ALL') !== false){
+
+      revokeAll($user, $table);
+
+       
+     }else{
+
+      revokesome($selected,$table, $user);
+     
+   }
+  }
+   else{
+     ?>
+  <div class="alert alert-danger" role="alert">
+  You did not select any privilege.
+  </div>
+    <?php
+   }
+ }
+?>
 <?php 
+//revoke all previlges
+function revokeAll($user, $table){
+include("../conn.php");
+if (empty($table)){
+  ?>
+  <div class="alert alert-danger" role="alert">
+  To revoke privileges you must select all tables or at least a table.
+  </div>
+  <?php
+}else{
+$grantall = "REVOKE ALL ON EMD.$table FROM $user@localhost";
+
+
+$grant= $mysqli->query($grantall);
+
+
+if ($grant){
+  ?>
+  <div class="alert alert-success" role="alert">
+  All the privilges have been revoked from <?php echo $user; ?>.
+  </div>
+  <?php
+}else{
+  ?>
+  <div class="alert alert-danger" role="alert">
+  ERROR ENCOUNTERED. <?php echo $mysqli->error; ?>
+  </div>
+  <?php
+}
+
+}
+}
+?>
+<?php 
+function revokesome($selected, $table, $user){
+  include("../conn.php");
+  if (empty($table)){
+    ?>
+    <div class="alert alert-danger" role="alert">
+    To revoke privileges you must select all tables or at least a table.
+    </div>
+    <?php
+  }else{
+ $grantprv = "REVOKE $selected ON EMD.$table FROM $user@localhost"; 
+
+
+$grant= $mysqli->query($grantprv);
+
+
+if ($grant){
+  ?>
+  <div class="alert alert-success" role="alert">
+  The  <?php echo $selected; ?> privileges have successfully been revoked from <?php echo $user; ?>.
+  </div>
+  <?php
+}else{
+  ?>
+  <div class="alert alert-danger" role="alert">
+  ERROR ENCOUNTERED. <?php echo $mysqli->error; ?>
+  </div>
+  <?php
+}
+
+
+  }
+}
+?>
+
+
+<?php
+//DELETE USER 
 if (isset($_POST['del_u'])){
   $user = $_POST['user'];
   $del_u = "DROP USER '$user'@'localhost'";
@@ -299,6 +420,12 @@ if (isset($_POST['del_u'])){
     <tr>
       <th scope="col">USER</th>
       <th scope="col">TABLE</th>
+      <th scope="col">ALL PRIV</th>
+      <th scope="col">USE</th>
+      <th scope="col"> SELECT</th>
+      <th scope="col">UPDATE</th>
+      <th scope="col"> DELETE </th>
+      <th scope ="col"> DROP</th>
       <th scope="col">DENY PRIV</th>
       <th scope="col">DELETE USER</th>
     </tr>
@@ -329,6 +456,7 @@ $us->free();
       <div class="form-group">
     <select class="form-control" id="user" name="table">
     <option value="" selected>you may or not choose table</option> 
+    <option value="*">ALL TABLES</option> 
       <?php 
 include("../conn.php");
 $table = "SHOW TABLES";
@@ -342,8 +470,48 @@ while($row=$tb->fetch_assoc()){
 $us->free();
       ?>
       </td>
+
+      <!--prev-->
+      <td>
+      <div class="form-check">
+    <input type="checkbox" class="form-check-input" name="check[]" onclick="disable()" value="ALL" id="all" data-toggle="tooltip" data-placement="bottom" title="seleting all privileges makes the user NON superuser on the employee DBMS">
+    <label class="form-check-label" for="all">yes</label>  
+  </div>    
+    </td>
+    </td>
+      <td>
+      <div class="form-check">
+    <input type="checkbox" class="form-check-input" name="check[]" value="USAGE" id="use">
+    <label class="form-check-label" for="use">yes</label>
+  </div>   
+    </td>
+      <td>
+      <div class="form-check">
+    <input type="checkbox" class="form-check-input" name="check[]" value="SELECT" id="select">
+    <label class="form-check-label" for="use">yes</label>
+  </div>     
+    </td>
+      <td>
+      <div class="form-check">
+    <input type="checkbox" class="form-check-input" name="check[]" value="UPDATE" id="update">
+    <label class="form-check-label" for="use">yes</label>
+  </div>     
+    </td>
+      <td> 
+      <div class="form-check">
+    <input type="checkbox" class="form-check-input" name="check[]" value="DELETE" id="delete">
+    <label class="form-check-label" for="use">yes</label>
+  </div> 
+      </td>
+      <td> 
+      <div class="form-check">
+    <input type="checkbox" class="form-check-input" name="check[]" value="DROP" id="drop">
+    <label class="form-check-label" for="use">yes</label>
+  </div> 
+    </td>
+
       
-      <td> <a href='?del=<?php echo $id; ?>' > <button onclick = "return confirm('Are you sure you want to delete the employee? This will remove the emoployee from the database')" type="button" class="btn btn-danger">DENY</button> </a></td>    
+      <td> <button onclick = "return confirm('Are you sure you want to revoke the user previleges?')" type="submit" name="deny" class="btn btn-danger">DENY</button></td>    
    
     
      

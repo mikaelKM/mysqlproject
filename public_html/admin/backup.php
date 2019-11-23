@@ -18,7 +18,7 @@ include("../conn.php");
     include("../includes/nav.php");
     ?>
   </header>
-  <main style="padding-top:200px;">
+  <main style="padding-top:100px;">
     <!-- body -->
 
     <div class="container">
