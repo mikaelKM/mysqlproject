@@ -122,7 +122,7 @@ if ($result = $mysqli->query($query)) {
       <td><?php echo $doneby; ?></td>
       <td><?php echo $doneat; ?></td>
       <td> <a href='?rev=<?php echo $id; ?>'><button  onclick = "return confirm('are you sure you want to revert the deletion?')" type="button" class="btn btn-info">REVERT</button></a>
-      <a href='?del=<?php echo $id; ?>' > <button onclick = "return confirm('Are you sure you want to delete the employee? This will remove the emoployee from the database')" type="button" class="btn btn-danger">DETELE</button> </a>
+      <a href='?del=<?php echo $id; ?>' > <button onclick = "return confirm('Are you sure you want to delete the employee? This will remove the emoployee from the database')" type="button" class="btn btn-danger">DELETE</button> </a>
     </td>
     </tr>
 

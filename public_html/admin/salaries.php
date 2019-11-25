@@ -93,7 +93,7 @@ if ($result = $mysqli->query($query)) {
       <td><?php echo $MA; ?></td>
       <td><?php echo $bonus; ?></td>
       <td><?php echo $tax; ?></td>
-      <td> <a href='?del=<?php echo $id; ?>'> <button type="button" onclick = "return confirm('You are about to delete a grade from the database?')" class="btn btn-danger">DETELE</button> </a></td>
+      <td> <a href='?del=<?php echo $id; ?>'> <button type="button" onclick = "return confirm('You are about to delete a grade from the database?')" class="btn btn-danger">DELETE</button> </a></td>
       <td> <a href='../admin/update_grade.php?update=<?php echo$id; ?>'> <button type="button" class="btn btn-primary">UPDATE</button></a></td>
       
     </tr>
@@ -161,7 +161,7 @@ if ($result = $mysqli->query($query)) {
       <td><?php echo $TA; ?></td>
       <td><?php echo $MA; ?></td>
       <td><?php echo $bonus; ?></td>
-      <td> <a href=''?del=<?php $id ?> > <button type="button" class="btn btn-danger">DETELE</button> </a></td>
+      <td> <a href=''?del=<?php $id ?> > <button type="button" class="btn btn-danger">DELETE</button> </a></td>
       
       
     </tr>

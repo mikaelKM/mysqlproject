@@ -113,7 +113,7 @@ if ($result = $mysqli->query($query)) {
       <td><?php echo $fname.' '.$lname; ?></td>
       <td><?php echo $dob; ?></td>
       <td><?php echo $doj; ?></td>
-      <td> <a href='?del=<?php echo $id; ?>' > <button onclick = "return confirm('Are you sure you want to delete the employee? This will remove the emoployee from the database')" type="button" class="btn btn-danger">DETELE</button> </a></td>
+      <td> <a href='?del=<?php echo $id; ?>' > <button onclick = "return confirm('Are you sure you want to delete the employee? This will remove the emoployee from the database')" type="button" class="btn btn-danger">DELETE</button> </a></td>
       <td> <a href='../users/update.php?update_bio=<?php echo $id; ?>'><button onclick = "return confirm('Are you sure you want to update the employee bio?')" type="button" class="btn btn-primary">UPDATE</button></td></a>
     </tr>
 
@@ -212,7 +212,7 @@ if ($result = $mysqli->query($query)) {
       <td><?php echo $MA; ?></td>
       <td><?php echo $bonus; ?></td>
       <td><?php echo $tax; ?></td>
-      <td> <a href='?del_g=<?php echo $id; ?>'> <button type="button" onclick = "return confirm('You are about to delete a grade from the database?')" class="btn btn-danger">DETELE</button> </a></td>
+      <td> <a href='?del_g=<?php echo $id; ?>'> <button type="button" onclick = "return confirm('You are about to delete a grade from the database?')" class="btn btn-danger">DELETE</button> </a></td>
       <td> <a href='../users/update_grade.php?update=<?php echo$id; ?>'> <button type="button" class="btn btn-primary">UPDATE</button></a></td>
       
     </tr>
