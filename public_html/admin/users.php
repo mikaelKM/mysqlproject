@@ -264,7 +264,7 @@ $us->free();
   </div> 
     </td>
 
-    <!--script code-->
+   
 
     <td> 
       <div class="form-check">
@@ -274,8 +274,18 @@ $us->free();
 </tbody>
 </table>
 </form>
+ <!--script code-->
+ <script type="text/javascript">
+ function disable(){
 
-
+if(this.checked){
+  var drop = document.getElementById('drop');
+  drop.disabled = true;
+}
+ 
+ 
+ }
+</script>
   </div>
   <div class="card-footer text-muted border-primary">
 This grants the user previlges on the EMD

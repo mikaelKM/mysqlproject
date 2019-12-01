@@ -35,13 +35,14 @@ BACKUP THE DATABASE  TABLE IN A SQL OUTFILE
 <?php
 if(isset($_POST['backup'])){
 $tbl = $_POST['tables'];
-$backup = "SELECT * INTO OUTFILE '$tbl.sql' from $tbl";
+$time = time();
+$backup = "SELECT * INTO OUTFILE '$tbl$time.sql' from $tbl";
 $bk = $mysqli->query($backup);
 if($bk){
 
   ?>
    <div class="alert alert-success container" role="alert">
-  The table has been backed up successfuly and the file is located at /var/lib/mysql/EMD. It is named as <?php echo $tbl.".sql"; ?>
+  The table has been backed up successfuly and the file is located at /var/lib/mysql/EMD. It is named as <?php echo $tbl.$time.".sql"; ?>
   </div>
   <?php
 }else{
